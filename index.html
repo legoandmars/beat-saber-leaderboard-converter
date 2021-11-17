@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Beat Saber Leaderboard Converter</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/leaderboard-convert.js"></script>
+  </head>
+  <body>
+  <section class="section has-background-dark">
+    <div class="container">
+      <h1 class="title has-text-white">
+        Beat Saber Leaderboard to .CSV
+      </h1>
+      <div class="is-divider" data-content="OR"></div>
+      <br>
+      <p class="subtitle has-text-white">
+        This site serves as a simple converter to make Beat Saber party mode leaderboard data more human readable.
+        <br><br>
+        After upload, you should be able to download a .CSV to open in excel or whatever spreadsheet program you prefer.
+      </p>
+      <br>
+      <div class="file is-info has-name" id="upload">
+        <label class="file-label">
+          <input class="file-input" type="file" name="resume">
+          <span class="file-cta">
+            <span class="file-label">
+              Upload LeaderboardData.dat
+            </span>
+          </span>
+          <span class="file-name has-text-white" id="filename">
+            No file uploaded
+          </span>
+        </label>
+        <button class="button is-success" id="download-button" disabled>Download LeaderboardData.csv</button>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>
