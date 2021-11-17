@@ -89,6 +89,8 @@ async function convert(file){
             }
         }
 
+
+        console.log(leaderboardName);
         if(leaderboardName.includes(customLevelIdentifier)){
             // custom level specific logic
             let idOffset = leaderboardName.indexOf(customLevelIdentifier) + customLevelIdentifier.length;
@@ -99,17 +101,23 @@ async function convert(file){
                 hash = hash.replace(difficultyNames[j], "");
             }
 
-            var data = await getBeatsaverData(hash);
+            hash = hash.replace("90Degree", "");
+            hash = hash.replace("360Degree", "");
+    
+            try{
+                var data = await getBeatsaverData(hash);
 
-            console.log(data.name);
-            console.log(data.id);
+                if(data != null && data.name != null && data.id != null){
+                    console.log("gaming");
+                    parsedLeaderboard["Map Name"] = data.name;
+                    parsedLeaderboard["BeatSaver Key"] = data.id; 
 
-            if(data != null && data.name != null && data.id != null){
-                console.log("gaming");
-                parsedLeaderboard["Map Name"] = data.name;
-                parsedLeaderboard["BeatSaver Key"] = data.id; 
-
-                canParseAsCustomLevel = true;
+                    canParseAsCustomLevel = true;
+                }
+            }catch(e){
+                console.log(e);
+                console.log("Couldn't find");
+                console.log(hash);
             }
         }
 
@@ -140,11 +148,12 @@ async function convert(file){
 
     csv = csvFromParsedLeaderboards(parsedLeaderboards);
 
+    downloadButton.className = "button is-success";
     downloadButton.disabled = false;
 }
 
 async function getBeatsaverData(hash){
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", beatsaverAPIEndpoint + hash, true);
 
@@ -175,6 +184,8 @@ function initializeButton(){
 
     fileInput.onchange = () => {
       if (fileInput.files.length > 0) {
+        downloadButton.className = "button is-success is-loading";
+
         const fileName = document.getElementById("filename");
         fileName.textContent = fileInput.files[0].name;
 
